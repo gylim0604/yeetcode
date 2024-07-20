@@ -22,3 +22,25 @@ export function arrayToList(arr) {
 	}
 	return head;
 }
+
+export class TreeNode {
+	constructor(value = null) {
+		this.val = value;
+		this.left = null;
+		this.right = null;
+	}
+}
+
+function constructTree(arr, index) {
+	if (index >= arr.length || arr[index] === null) return null;
+
+	const node = new TreeNode(arr[index]);
+	node.left = constructTree(arr, 2 * index + 1);
+	node.right = constructTree(arr, 2 * index + 2);
+
+	return node;
+}
+
+export function arrayToBinaryTree(arr) {
+	return constructTree(arr, 0);
+}
