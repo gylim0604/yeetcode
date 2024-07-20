@@ -1,4 +1,5 @@
 import { arrayToBinaryTree } from '../utils.mjs';
+
 class Solution {
 	/**
 	 * @param {TreeNode} root
@@ -6,25 +7,23 @@ class Solution {
 	 */
 	levelOrder(root) {
 		if (root === null) return [];
-		let stack = [root];
+		let queue = [root];
 		const res = new Array();
-		let temp = new Array();
-		let currArr = [];
-		while (stack.length > 0) {
+		while (queue.length > 0) {
 			// handle current level
-			const curr = stack.shift();
-			currArr.push(curr.val);
-			// handle children
-			if (curr.left) temp.push(curr.left);
-			if (curr.right) temp.push(curr.right);
-			//  current level is done
-			if (stack.length === 0) {
-				stack = [...temp];
-				temp = [];
-				res.push(currArr);
-				currArr = [];
-				console.log(res);
+			const val = [];
+			const len = queue.length;
+			for (let i = 0; i < len; i++) {
+				const curr = queue.shift();
+				val.push(curr.val);
+				if (curr.left) {
+					queue.push(curr.left);
+				}
+				if (curr.right) {
+					queue.push(curr.right);
+				}
 			}
+			res.push(val);
 		}
 		return res;
 	}
