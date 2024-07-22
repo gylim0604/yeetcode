@@ -3,9 +3,9 @@ export function createNode(value, left = null, right = null) {
 }
 
 export class ListNode {
-	constructor(value = null) {
+	constructor(value = null, next = null) {
 		this.val = value;
-		this.next = null;
+		this.next = next;
 	}
 }
 
