@@ -7,14 +7,30 @@ class Solution {
 	 * @return {number}
 	 */
 	kthSmallest(root, k) {
+		const stack = [];
+		let curr = root;
+		while (curr !== null || stack.length > 0) {
+			while (curr !== null) {
+				stack.push(curr);
+				curr = curr.left;
+			}
+			console.log(stack);
+			curr = stack.pop();
+
+			if (--k === 0) return curr.val;
+			curr = curr.right;
+		}
+	}
+
+	kthSmallestObject(root, k) {
 		const context = { k: k, res: null };
 		this.#inOrder(root, context);
 		return context.res;
 	}
+
 	#inOrder(root, context) {
 		// traverse till you get the smallest one
 		// once the smallest is found, start counting back
-		debugger;
 		if (root === null) {
 			return;
 		}
