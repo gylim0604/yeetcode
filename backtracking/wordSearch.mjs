@@ -5,22 +5,28 @@ class Solution {
 	 * @return {boolean}
 	 */
 	exist(board, word) {
-		return this.#search(board, word, 0, 0, 0);
+		for (let i = 0; i < board.length; i++) {
+			for (let j = 0; j < board[i].length; j++) {
+				if (this.#search(board, word, i, j, 0)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	#search(board, word, row, col, index) {
 		if (index === word.length) {
 			return true;
 		}
-		if (col >= board[0].length || row >= board.length) {
+		if (col < 0 || row < 0 || col >= board[0].length || row >= board.length || board[row][col] !== word[index]) {
 			return false;
 		}
-		if (board[row][col] === word[index]) {
-			index++;
-		} else {
-			index = 0;
-		}
-		return this.#search(board, word, row, col + 1, index) || this.#search(board, word, row + 1, col, index);
+		const temp = board[row][col];
+		board[row][col] = '#';
+		const found = this.#search(board, word, row, col + 1, index + 1) || this.#search(board, word, row + 1, col, index + 1) || this.#search(board, word, row, col - 1, index + 1) || this.#search(board, word, row - 1, col, index + 1);
+		board[row][col] = temp;
+		return found;
 	}
 }
 
@@ -29,13 +35,9 @@ const board = [
 	['S', 'A', 'A', 'T'],
 	['A', 'C', 'A', 'E'],
 ];
-// const board = [['A', 'B', 'C', 'A', 'T']];
-const word = 'CAT';
-// const board = [
-// 	['A', 'B'],
-// 	['A', 'A'],
-// ];
-// // const word = 'AA';
+const word = 'CAAC';
+
+// const word = 'CAT';
 // const word = 'ABC';
 const sol = new Solution();
 console.log(sol.exist(board, word));
