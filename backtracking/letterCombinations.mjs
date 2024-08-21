@@ -1,48 +1,34 @@
 class Solution {
-	/**
-	 * @param {string} digits
-	 * @return {string[]}
-	 */
 	#dict = {
-		2: ['a', 'b', 'c'],
-		3: ['d', 'e', 'f'],
-		4: ['g', 'h', 'i'],
-		5: ['j', 'k', 'l'],
-		6: ['m', 'n', 'o'],
-		7: ['p', 'q', 'r', 's'],
-		8: ['t', 'u', 'v'],
-		9: ['w', 'x', 'y', 'z'],
+		2: 'abc',
+		3: 'def',
+		4: 'ghi',
+		5: 'jkl',
+		6: 'mno',
+		7: 'qprs',
+		8: 'tuv',
+		9: 'wxyz',
 	};
 	/**
 	 * @param {string} digits
 	 * @return {string[]}
 	 */
 	letterCombinations(digits) {
-		const res = [];
-		const curr = [];
-		const arr = digits.split('');
-		for (let i = 0; i < arr.length; i++) {
-			// get individual keys
-			const prefixArr = this.#dict[arr[i]];
-			for (let j = 0; j < prefixArr.length; j++) {
-				this.#dfs(arr, res, [prefixArr[j]], i + 1);
-			}
+		let res = [];
+		if (digits) {
+			this.#combine(digits, res, '', 0);
 		}
 		return res;
 	}
 
-	#dfs(digits, res, curr, index) {
+	#combine(digits, res, curr, idx) {
 		if (curr.length === digits.length) {
-			res.push(curr.join(''));
+			res.push(curr);
 			return;
 		}
-		for (let i = index; i < digits.length; i++) {
-			const chars = this.#dict[digits[i]];
-			for (let j = 0; j < chars.length; j++) {
-				curr.push(chars[j]);
-				this.#dfs(digits, res, curr, i + 1);
-				curr.pop();
-			}
+		// Go through each
+		for (const char of this.#dict[digits[idx]]) {
+			this.#combine(digits, res, curr + char, idx + 1);
 		}
 	}
 }
