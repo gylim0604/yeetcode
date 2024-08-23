@@ -4,17 +4,12 @@ class Solution {
 	 * @return {number}
 	 */
 	minCostClimbingStairs(cost) {
-		return Math.min(this.#climb(cost, 0, 0, []), this.#climb(cost, 1, 0, []));
-	}
-
-	#climb(cost, idx, currCost, seen) {
-		if (idx >= cost.length) {
-			return currCost;
+		cost.push(0);
+		for (let i = cost.length - 3; i >= 0; i--) {
+			console.log(cost[i]);
+			cost[i] = Math.min(cost[i + 1], cost[i + 2]) + cost[i];
 		}
-		if (seen[idx]) return seen[idx];
-		currCost += cost[idx] ?? 0;
-		seen[idx] = Math.min(this.#climb(cost, idx + 1, currCost, seen), this.#climb(cost, idx + 2, currCost, seen));
-		return seen[idx];
+		return Math.min(cost[0], cost[1]);
 	}
 }
 
