@@ -4,14 +4,17 @@ class Solution {
 	 * @return {number}
 	 */
 	rob(nums) {
-		if (nums.length <= 2) {
-			return Math.max(...nums);
+		if (nums.length === 0) return 0;
+		if (nums.length === 1) return nums[0];
+
+		let prev2 = 0; // max profit for robbing previous 2 houses
+		let prev1 = nums[0]; // max profit of robbing previous house
+		for (let i = 1; i < nums.length; i++) {
+			const current = Math.max(prev2 + nums[i], prev1);
+			prev2 = prev1;
+			prev1 = current;
 		}
-		for (let i = 2; i < nums.length; i++) {
-			nums[i] += Math.max(nums[i - 2], nums[i - 3] || 0);
-			// max = Math.max(max, nums[i]);
-		}
-		return Math.max(...nums);
+		return prev1;
 	}
 }
 
