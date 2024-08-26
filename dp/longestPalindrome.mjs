@@ -4,20 +4,28 @@ class Solution {
 	 * @return {string}
 	 */
 	longestPalindrome(s) {
-		return this.#findPalindrome(s);
+		const found = {};
+		return this.#findPalindrome(s, found);
 	}
 
-	#findPalindrome(s) {
-		if (s.length === 1) {
+	#findPalindrome(s, found) {
+		if (found[s]) return s;
+
+		if (this.#isPalindrome(s)) {
+			found[s] = true;
 			return s;
+		} else {
+			found[s] = false;
 		}
-		if (this.#isPalindrome(s)) return s;
-		const curr = this.#findPalindrome(s.slice(0, s.length - 1));
-		const curr2 = this.#findPalindrome(s.slice(1));
+		const curr = this.#findPalindrome(s.slice(0, s.length - 1), found);
+		const curr2 = this.#findPalindrome(s.slice(1), found);
 		return curr.length > curr2.length ? curr : curr2;
 	}
 
 	#isPalindrome(s) {
+		if (s.length === 1) {
+			return true;
+		}
 		let l = 0,
 			r = s.length - 1;
 		while (l < r) {
@@ -27,6 +35,6 @@ class Solution {
 	}
 }
 
-const str = 'abbc';
+const str = 'aabbccddeeffgghh';
 const sol = new Solution();
 console.log(sol.longestPalindrome(str));
