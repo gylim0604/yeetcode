@@ -4,7 +4,8 @@ class Solution {
 	 * @return {string}
 	 */
 	longestPalindrome(s) {
-		return this.#expandAtCenter(s);
+		// return this.#expandAtCenter(s);
+		return this.#dp(s);
 	}
 
 	#expandAtCenter(s) {
@@ -33,33 +34,42 @@ class Solution {
 		}
 		return r - l - 1;
 	}
-	// #findPalindrome(s, found) {
-	// 	if (found[s]) return s;
 
-	// 	if (this.#isPalindrome(s)) {
-	// 		found[s] = true;
-	// 		return s;
-	// 	} else {
-	// 		found[s] = false;
-	// 	}
-	// 	const curr = this.#findPalindrome(s.slice(0, s.length - 1), found);
-	// 	const curr2 = this.#findPalindrome(s.slice(1), found);
-	// 	return curr.length > curr2.length ? curr : curr2;
-	// }
+	#dp(s) {
+		let start = 0,
+			maxLen = 1;
+		// dp is a 2d array representing whether dp[i...j] is a palindrome
+		const dp = [...new Array(s.length + 1)].map((_) => new Array(s.length + 1).fill(false));
+		// Fill up value for single character
+		for (let i = 0; i < s.length; i++) {
+			dp[i] = [];
+			dp[i][i] = true;
+		}
+		// fill up length 2 strings
+		for (let i = 0; i < s.length - 1; i++) {
+			if (s[i] === s[i + 1]) {
+				dp[i][i + 1] = true;
+				start = i;
+				maxLen = 2;
+			}
+		}
 
-	// #isPalindrome(s) {
-	// 	if (s.length === 1) {
-	// 		return true;
-	// 	}
-	// 	let l = 0,
-	// 		r = s.length - 1;
-	// 	while (l < r) {
-	// 		if (s[l++] !== s[r--]) return false;
-	// 	}
-	// 	return true;
-	// }
+		for (let len = 3; len < s.length + 1; len++) {
+			for (let i = 0; i < s.length - len + 1; i++) {
+				const j = i + len - 1;
+				if (s[i] === s[j] && dp[i + 1][j - 1]) {
+					dp[i][j] = true;
+					if (len > maxLen) {
+						start = i;
+						maxLen = len;
+					}
+				}
+			}
+		}
+		return s.slice(start, start + maxLen);
+	}
 }
 
-const str = 'abbc';
+const str = 'abcba';
 const sol = new Solution();
 console.log(sol.longestPalindrome(str));
