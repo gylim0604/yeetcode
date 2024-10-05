@@ -2,14 +2,11 @@ class Solution:
     def findPermutationDifference(self, s: str, t: str) -> int:
         res = 0
         tDict = {}
-        sDict = {}
-        for i in range(0, len(s)):
+        for i in range(0, len(t)):
             tDict[t[i]] = i
-            sDict[s[i]] = i
 
-        for el in sDict:
-            res += abs(tDict[el] - sDict[el])
-        
+        for i in range(0, len(s)):
+            res += abs(tDict[s[i]] - i)
         return res
 s , t = 'abcde','edbac'
 sol = Solution()
