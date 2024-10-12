@@ -3,8 +3,10 @@ from typing import List
 
 class Solution:
     def minGroups(self, intervals: List[List[int]]) -> int:
-        start_times = [start for start, _ in intervals ]
-        end_times = [ end for _, end in intervals]
+        start_times , end_times = [],[]
+        for start, end in intervals:
+            start_times.append(start)
+            end_times.append(end)
         start_times.sort()
         end_times.sort()
         maxIntervals, activeIntervals = 0,0
