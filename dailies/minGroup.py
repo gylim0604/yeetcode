@@ -9,17 +9,15 @@ class Solution:
             end_times.append(end)
         start_times.sort()
         end_times.sort()
-        maxIntervals, activeIntervals = 0,0
+        maxIntervals = 0
         i,j = 0,0
         n = len(intervals)
         while i < n and j < n:
             if start_times[i] <= end_times[j]:
-                activeIntervals+=1
                 i+= 1
             else:
-                activeIntervals-=1
                 j+=1
-            maxIntervals = max(maxIntervals,activeIntervals)
+            maxIntervals = max(maxIntervals,i-j)
         return maxIntervals
 
 arr = [[1,3],[5,6],[8,10],[11,13]]
