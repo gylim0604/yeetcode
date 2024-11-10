@@ -18,7 +18,7 @@ class Solution:
             curr = s[i:i + length]
             res.append(curr)
             i += length
-            
+
         return res
     
 sol = Solution()
