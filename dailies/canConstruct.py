@@ -10,7 +10,9 @@ class Solution:
             return True
         freq = Counter(s)
         odd_count = sum(v & 1 for v in freq.values())
-        return odd_count < k
+        if odd_count > k:
+            return False
+        return True
 
 
 sol = Solution()
